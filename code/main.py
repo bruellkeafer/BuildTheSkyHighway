@@ -57,7 +57,8 @@ class Clustering:
         antenna.assignBuilding(building)
 
       for antenna in self.antennas:
-        antenna.pos = np.round(np.average(list(map(lambda building : building.pos[0], antenna.assignedBuildings)))),np.round(np.average(list(map(lambda building : building.pos[1], antenna.assignedBuildings))))
+        if len(antenna.assignedBuildings) != 0:
+            antenna.pos = np.round(np.average(list(map(lambda building : building.pos[0], antenna.assignedBuildings)))),np.round(np.average(list(map(lambda building : building.pos[1], antenna.assignedBuildings))))
         #antenna.pos = np.round(np.average(list(map(lambda building : building.pos, antenna.assignedBuildings)),axis = 1))
 
 def distance(building,antenna):
@@ -75,7 +76,7 @@ def getScore(building,antenna):
 def connectBuildingToAntenna(building):
     building.connectedAntenna = max(list(map(lambda x : getScore(building,x), building.ReachableAntennas)))
 
-file=open("C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway\\data_scenarios_a_example.in","r")
+file=open("C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway\\data_scenarios_b_mumbai.in","r")
 
 string = file.read()
 inputs = string.split("\n")
@@ -116,7 +117,17 @@ cl = Clustering(Antennas,Buildings)
 
 #plot_map(Antennas,Buildings)
 
+
 cl.clusterStep()
-for a in cl.antennas:
-    print(a.pos)
-plot_map(Antennas,Buildings)
+
+for c in cl.antennas:
+    print(c.pos)
+#plot_map(Antennas,Buildings)
+outFile = open("C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway\\out.txt","w")
+outString = str(len(cl.antennas)) + "\n"
+for index,antenna in enumerate(cl.antennas):
+    outString += str(index) + " " + str(int(antenna.pos[0])) + " " + str(int(antenna.pos[1])) + "\n"
+
+
+outFile.write(outString)
+
