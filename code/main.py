@@ -53,11 +53,16 @@ class Clustering:
 
     def cluster_step(self):
         # build cluster groups
+        self.assign_buildings_to_best_antennas()
+        self.shift_antenna_positions()
+
+    def assign_buildings_to_best_antennas(self):
         for ind, building in enumerate(self.buildings):
             print("processing building " + str(ind) + '/' + str(len(self.buildings)))
             _, ant = building.find_best_antenna(self.antennas)
             ant.assign_building(building)
 
+    def shift_antenna_positions(self):
         for a in self.antennas:
             if len(a.assignedBuildings) != 0:
                 a.pos = np.round(
@@ -82,7 +87,6 @@ def get_score(building, ant):
 
 def connect_building_to_antenna(building):
     building.connectedAntenna = max(list(map(lambda x: get_score(building, x), building.ReachableAntennas)))
-
 
 
 file = open(
@@ -139,7 +143,7 @@ print("cluster step finished")
 
 for c in cl.antennas:
     print(c.pos)
-# plot_map(Antennas,Buildings)
+
 outFile = open(
     "C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway\\out.txt",
     "w")
