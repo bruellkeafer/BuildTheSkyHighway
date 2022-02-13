@@ -13,17 +13,15 @@ class Building:
         self.connectionSpeedWeight = connectionSpeedWeight
     
     def findBestAntenna(self,antennas):
-
-         #if(distance(self.X,self.Y,a.X,a.Y) <= a.Range):
-                
-
         bestAntenna = [0, None]
         for antenna in antennas:                
             score = getScore(self, antenna)
-            if(distance(self, antenna) > antenna.range):
-                score *= 0.000001
             if(score > bestAntenna[0]):
                 bestAntenna = [score,antenna]
+            if(distance(self, antenna) > antenna.range):
+                score *= 0.000001
+        if(bestAntenna[1] is None):
+            bestAntenna = (0, antennas[rd.randint(0, len(antennas))])
         return bestAntenna
 
 class Antenna:    
@@ -51,9 +49,10 @@ class Clustering:
       
     def clusterStep(self):
       #build cluster groups
-      for building in self.buildings:
-
-        _ , antenna = building.findBestAntenna(self.antennas)
+      for index , building in enumerate(self.buildings):
+        print("processing building " + str(index) + '/' + str(len(self.buildings)))
+        resultTuple = building.findBestAntenna(self.antennas)
+        _ , antenna = resultTuple
         antenna.assignBuilding(building)
 
       for antenna in self.antennas:
@@ -113,12 +112,14 @@ def plot_map(antennas,buildings):
     plt.scatter(np.array(list(map(lambda antenna : antenna.pos, antennas)))[:,0], np.array(list(map(lambda antenna : antenna.pos, antennas)))[:,1])
     plt.show()
 
+print("create cluster")
 cl = Clustering(Antennas,Buildings)
-
+print("created cluster")
 #plot_map(Antennas,Buildings)
 
-
+print("processing cluster step")
 cl.clusterStep()
+print("cluster step finished")
 
 for c in cl.antennas:
     print(c.pos)
