@@ -1,6 +1,8 @@
 import random as rd
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+startTime = time.time()
 
 
 class Building:
@@ -82,9 +84,10 @@ def connect_building_to_antenna(building):
     building.connectedAntenna = max(list(map(lambda x: get_score(building, x), building.ReachableAntennas)))
 
 
+
 file = open(
     "C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway"
-    "\\data_scenarios_b_mumbai.in",
+    "\\data_scenarios_a_example.in",
     "r")
 
 string = file.read()
@@ -129,7 +132,6 @@ def plot_map(antennas, buildings):
 print("create cluster")
 cl = Clustering(Antennas, Buildings)
 print("created cluster")
-# plot_map(Antennas,Buildings)
 
 print("processing cluster step")
 cl.cluster_step()
@@ -146,3 +148,6 @@ for index, antenna in enumerate(cl.antennas):
     outString += str(index) + " " + str(int(antenna.pos[0])) + " " + str(int(antenna.pos[1])) + "\n"
 
 outFile.write(outString)
+
+executionTime = (time.time() - startTime)
+print('Execution time in seconds: ' + str(executionTime))
