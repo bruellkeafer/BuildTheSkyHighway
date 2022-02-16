@@ -8,7 +8,7 @@ import multiprocessing as mp
 
 
 class Building:
-    ReachableAntennas = []
+    #ReachableAntennas = []
     Score = 0
 
     def __init__(self, x, y, latency_weight, connection_speed_weight):
@@ -93,12 +93,10 @@ def get_score(building, ant):
             building.latencyWeight * distance(ant, building))
 
 
-def connect_building_to_antenna(building):
-    building.connectedAntenna = max(list(map(lambda x: get_score(building, x), building.ReachableAntennas)))
+#def connect_building_to_antenna(building):
+  #  building.connectedAntenna = max(list(map(lambda x: get_score(building, x), building.ReachableAntennas)))
 
 
-if __name__ == '__main__':
-    mp.freeze_support()
 
 file = open(
     "C:\\Users\\Tim Martins\\Desktop\\Projekte\\Programmieren\\ReplyChallenges\\TapTapTap\\BuildTheSkyHighway"

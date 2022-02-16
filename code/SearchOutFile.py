@@ -1,6 +1,6 @@
 
 file = open(
-    "..\\out.txt",
+    "..\\out_LOL.txt",
     "r")
 
 string = file.read()
